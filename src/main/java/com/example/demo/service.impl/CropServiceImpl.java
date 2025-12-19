@@ -1,18 +1,51 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.Crop;
+import com.example.demo.repository.CropRepository;
+import com.example.demo.service.CropService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface CropService {
+@Service
+public class CropServiceImpl implements CropService {
 
-    Crop createCrop(Crop crop);
+    private final CropRepository cropRepository;
 
-    Crop getCropById(Long id);
+    public CropServiceImpl(CropRepository cropRepository) {
+        this.cropRepository = cropRepository;
+    }
 
-    List<Crop> getAllCrops();
+    @Override
+    public Crop createCrop(Crop crop) {
+        return cropRepository.save(crop);
+    }
 
-    Crop updateCrop(Long id, Crop crop);
+    @Override
+    public Crop getCropById(Long id) {
+        return cropRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Crop not found with id " + id));
+    }
 
-    void deleteCrop(Long id);
+    @Override
+    public List<Crop> getAllCrops() {
+        return cropRepository.findAll();
+    }
+
+    @Override
+    public Crop updateCrop(Long id, Crop crop) {
+        Crop existing = getCropById(id);
+
+        existing.setCropName(crop.getCropName());
+        existing.setSeason(crop.getSeason());
+        existing.setSoilType(crop.getSoilType());
+        existing.setDurationInDays(crop.getDurationInDays());
+
+        return cropRepository.save(existing);
+    }
+
+    @Override
+    public void deleteCrop(Long id) {
+        cropRepository.deleteById(id);
+    }
 }
