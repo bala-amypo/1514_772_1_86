@@ -27,6 +27,7 @@ public class User {
     @Builder.Default
     private String role = "USER";
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Farm> farms;
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+   private List<Farm> farms;
+
 }
