@@ -17,14 +17,8 @@ public class CropServiceImpl implements CropService {
     }
 
     @Override
-    public Crop createCrop(Crop crop) {
+    public Crop addCrop(Crop crop) {
         return cropRepository.save(crop);
-    }
-
-    @Override
-    public Crop getCropById(Long id) {
-        return cropRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Crop not found with id " + id));
     }
 
     @Override
@@ -33,19 +27,8 @@ public class CropServiceImpl implements CropService {
     }
 
     @Override
-    public Crop updateCrop(Long id, Crop crop) {
-        Crop existing = getCropById(id);
-
-        existing.setCropName(crop.getCropName());
-        existing.setSeason(crop.getSeason());
-        existing.setSoilType(crop.getSoilType());
-        existing.setDurationInDays(crop.getDurationInDays());
-
-        return cropRepository.save(existing);
-    }
-
-    @Override
-    public void deleteCrop(Long id) {
-        cropRepository.deleteById(id);
+    public Crop getCropById(Long id) {
+        return cropRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Crop not found"));
     }
 }

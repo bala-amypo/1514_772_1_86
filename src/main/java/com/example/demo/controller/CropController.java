@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/crops")
+@RequestMapping("/crops")
 public class CropController {
 
     private final CropService cropService;
@@ -17,28 +17,17 @@ public class CropController {
     }
 
     @PostMapping
-    public Crop create(@RequestBody Crop crop) {
-        return cropService.createCrop(crop);
-    }
-
-    @GetMapping("/{id}")
-    public Crop getById(@PathVariable Long id) {
-        return cropService.getCropById(id);
+    public Crop addCrop(@RequestBody Crop crop) {
+        return cropService.addCrop(crop);
     }
 
     @GetMapping
-    public List<Crop> getAll() {
+    public List<Crop> getAllCrops() {
         return cropService.getAllCrops();
     }
 
-    @PutMapping("/{id}")
-    public Crop update(@PathVariable Long id, @RequestBody Crop crop) {
-        return cropService.updateCrop(id, crop);
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        cropService.deleteCrop(id);
-        return "Crop deleted successfully";
+    @GetMapping("/{id}")
+    public Crop getCropById(@PathVariable Long id) {
+        return cropService.getCropById(id);
     }
 }
