@@ -6,13 +6,9 @@ import java.util.List;
 
 public interface CropService {
 
-    Crop createCrop(Crop crop);
-
-    Crop getCropById(Long id);
+    Crop addCrop(Crop crop);
 
     List<Crop> getAllCrops();
 
-    Crop updateCrop(Long id, Crop crop);
-
-    void deleteCrop(Long id);
-}
+    Crop getCropById(Long id);
+}                 
