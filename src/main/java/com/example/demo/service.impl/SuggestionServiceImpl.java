@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Suggestion;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.SuggestionRepository;
 import com.example.demo.service.SuggestionService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     @Override
     public Suggestion getSuggestionById(Long id) {
-        return suggestionRepository.findById(id).orElse(null);
+        return suggestionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Suggestion not found with id " + id));
     }
 }

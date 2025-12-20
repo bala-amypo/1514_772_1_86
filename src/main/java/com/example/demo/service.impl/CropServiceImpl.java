@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Crop;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.CropRepository;
 import com.example.demo.service.CropService;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,13 @@ public class CropServiceImpl implements CropService {
 
     @Override
     public Crop getCropById(Long id) {
-        return cropRepository.findById(id).orElse(null);
+        return cropRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Crop not found with id " + id));
     }
 
     @Override
     public void deleteCrop(Long id) {
-        cropRepository.deleteById(id);
+        Crop crop = getCropById(id);
+        cropRepository.delete(crop);
     }
 }

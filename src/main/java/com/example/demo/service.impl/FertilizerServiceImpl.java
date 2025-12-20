@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Fertilizer;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.FertilizerRepository;
 import com.example.demo.service.FertilizerService;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,6 @@ public class FertilizerServiceImpl implements FertilizerService {
     @Override
     public Fertilizer getFertilizerById(Long id) {
         return fertilizerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fertilizer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Fertilizer not found with id " + id));
     }
 }
