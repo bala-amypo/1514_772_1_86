@@ -2,50 +2,36 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Farm;
 import com.example.demo.service.FarmService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/farms")
+@RequestMapping("/farms")
 @RequiredArgsConstructor
 public class FarmController {
 
     private final FarmService farmService;
 
     @PostMapping
-    public ResponseEntity<Farm> createFarm(@RequestBody Farm farm) {
-        return new ResponseEntity<>(farmService.createFarm(farm), HttpStatus.CREATED);
+    public Farm create(@Valid @RequestBody Farm farm) {
+        return farmService.createFarm(farm);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Farm> getFarmById(@PathVariable Long id) {
-        return ResponseEntity.ok(farmService.getFarmById(id));
+    public Farm getById(@PathVariable Long id) {
+        return farmService.getFarmById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<Farm>> getAllFarms() {
-        return ResponseEntity.ok(farmService.getAllFarms());
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Farm>> getFarmsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(farmService.getFarmsByUserId(userId));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Farm> updateFarm(
-            @PathVariable Long id,
-            @RequestBody Farm farm) {
-        return ResponseEntity.ok(farmService.updateFarm(id, farm));
+    public List<Farm> getAll() {
+        return farmService.getAllFarms();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFarm(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         farmService.deleteFarm(id);
-        return ResponseEntity.ok("Farm deleted successfully");
     }
 }
