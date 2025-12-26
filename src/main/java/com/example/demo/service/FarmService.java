@@ -1,20 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.FarmRequest;
 import com.example.demo.entity.Farm;
 
 import java.util.List;
 
 public interface FarmService {
 
-    Farm createFarm(Farm farm);
+    Farm createFarm(FarmRequest request, Long userId);
 
-    Farm getFarmById(Long id);
-
-    List<Farm> getAllFarms();
-
-    List<Farm> getFarmsByUserId(Long userId);
-
-    Farm updateFarm(Long id, Farm farm);
-
-    void deleteFarm(Long id);
+    List<Farm> getFarmsByUser(Long userId);
 }

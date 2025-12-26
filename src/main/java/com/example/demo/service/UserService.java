@@ -1,18 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.User;
-
-import java.util.List;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 
 public interface UserService {
 
-    User create(User user);
+    AuthResponse register(RegisterRequest request);
 
-    User getById(Long id);
-
-    List<User> getAll();
-
-    User update(Long id, User user);
-
-    void delete(Long id);
+    AuthResponse login(AuthRequest request);
 }
