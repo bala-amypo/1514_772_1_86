@@ -1,34 +1,45 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "farms")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Farm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Farm name is required")
-    private String farmName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
 
-    @NotBlank(message = "Location is required")
-    private String location;
+    @NotBlank
+    private String name;
 
-    @NotNull(message = "Soil pH is required")
-    private Double soilPh;
+    @NotNull
+    private Double soilPH;
 
-    @NotBlank(message = "Season is required")
+    @NotNull
+    private Double waterLevel;
+
+    @NotBlank
     private String season;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }
