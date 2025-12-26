@@ -1,9 +1,9 @@
 package com.example.demo.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
@@ -13,8 +13,8 @@ public class FarmRequest {
     private String name;
 
     @NotNull(message = "Soil pH is required")
-    @Min(value = 0, message = "Soil pH must be >= 0")
-    @Max(value = 14, message = "Soil pH must be <= 14")
+    @Min(value = 3, message = "pH must be >= 3")
+    @Max(value = 10, message = "pH must be <= 10")
     private Double soilPH;
 
     @NotNull(message = "Water level is required")
