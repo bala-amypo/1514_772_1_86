@@ -1,48 +1,39 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.List;
 
-@Entity
-@Table(name = "users")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
-    @Email
-    @NotBlank
+    @Email(message = "Email must be valid")
+    @NotBlank(message = "Email cannot be empty")
     @Column(unique = true)
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 6, message = "Password must have at least 6 characters")
     private String password;
 
-    @NotBlank
-    private String role;
+    private String role = "USER";
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Farm> farms;
 }
