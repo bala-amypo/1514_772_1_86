@@ -1,26 +1,34 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "fertilizers")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Fertilizer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Fertilizer name is required")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "Type is required")
-    private String type;
+    @NotBlank
+    private String npkRatio;
 
-    @NotBlank(message = "Nutrient is required")
-    private String nutrient;
+    @NotBlank
+    private String recommendedForCrops;
 }
