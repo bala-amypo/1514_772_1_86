@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Suggestion;
+
 public interface SuggestionService {
 
-    Object getSuggestions(Long userId);
+    Suggestion generateSuggestion(Long farmId, Long userId);
 }

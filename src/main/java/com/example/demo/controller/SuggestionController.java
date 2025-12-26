@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Suggestion;
 import com.example.demo.service.SuggestionService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,12 @@ public class SuggestionController {
         this.suggestionService = suggestionService;
     }
 
-    @GetMapping
-    public Object getSuggestions(HttpServletRequest request) {
-
-        // HEADER VALUE IS STRING → CONVERT TO LONG
+    @PostMapping("/{farmId}")
+    public Suggestion generateSuggestion(
+            @PathVariable Long farmId,
+            HttpServletRequest request
+    ) {
         Long userId = Long.parseLong(request.getHeader("userId"));
-
-        return suggestionService.getSuggestions(userId);
+        return suggestionService.generateSuggestion(farmId, userId);
     }
 }

@@ -16,26 +16,18 @@ public class FarmController {
         this.farmService = farmService;
     }
 
-    // CREATE FARM
     @PostMapping
     public Object createFarm(
             @Valid @RequestBody FarmRequest farmRequest,
             HttpServletRequest request
     ) {
-
-        // String → Long (FIX)
         Long userId = Long.parseLong(request.getHeader("userId"));
-
-        return farmService.createFarm(userId, farmRequest);
+        return farmService.createFarm(farmRequest, userId);
     }
 
-    // GET FARMS
     @GetMapping
     public Object getFarms(HttpServletRequest request) {
-
-        // String → Long (FIX)
         Long userId = Long.parseLong(request.getHeader("userId"));
-
         return farmService.getFarms(userId);
     }
 }
