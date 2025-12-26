@@ -1,96 +1,51 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 
-@Component
 public class JwtTokenProvider {
 
-    // Token validity: 1 day
-    private static final long EXPIRATION_TIME = 86400000;
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    // Secret key (auto-generated)
-    private static final Key SECRET_KEY =
-            Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-    // --------------------------------------------------
-    // Generate token with username ONLY
-    // --------------------------------------------------
-    public String generateToken(String username) {
-
+    public String createToken(Long userId, String email, String role) {
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + EXPIRATION_TIME)
-                )
-                .signWith(SECRET_KEY)
-                .compact();
-    }
-
-    // --------------------------------------------------
-    // Generate token with username + role (IMPORTANT)
-    // --------------------------------------------------
-    public String generateToken(String username, String role) {
-
-        return Jwts.builder()
-                .setSubject(username)
+                .claim("userId", userId)
+                .claim("email", email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + EXPIRATION_TIME)
-                )
-                .signWith(SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(key)
                 .compact();
     }
 
-    // --------------------------------------------------
-    // Extract username from token
-    // --------------------------------------------------
-    public String getUsernameFromToken(String token) {
-
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+    private Claims claims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        return claims.getSubject();
     }
 
-    // --------------------------------------------------
-    // Validate JWT token
-    // --------------------------------------------------
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(SECRET_KEY)
-                    .build()
-                    .parseClaimsJws(token);
+            claims(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    // --------------------------------------------------
-    // Extract user (username) from Authorization header
-    // --------------------------------------------------
-    public String getUserIdFromRequest(HttpServletRequest request) {
+    public Long getUserId(String token) {
+        return claims(token).get("userId", Long.class);
+    }
 
-        String header = request.getHeader("Authorization");
+    public String getEmail(String token) {
+        return claims(token).get("email", String.class);
+    }
 
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
-            return getUsernameFromToken(token);
-        }
-        return null;
+    public String getRole(String token) {
+        return claims(token).get("role", String.class);
     }
 }
