@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.FarmRequest;
 import com.example.demo.entity.Farm;
+import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.FarmService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -9,29 +12,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/farms")
+@RequestMapping("/api/farms")
 @RequiredArgsConstructor
 public class FarmController {
 
     private final FarmService farmService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public Farm create(@Valid @RequestBody Farm farm) {
-        return farmService.createFarm(farm);
-    }
+    public Farm createFarm(
+            @Valid @RequestBody FarmRequest request,
+            HttpServletRequest httpRequest) {
 
-    @GetMapping("/{id}")
-    public Farm getById(@PathVariable Long id) {
-        return farmService.getFarmById(id);
+        Long userId = jwtTokenProvider.getUserIdFromRequest(httpRequest);
+        return farmService.createFarm(request, userId);
     }
 
     @GetMapping
-    public List<Farm> getAll() {
-        return farmService.getAllFarms();
-    }
+    public List<Farm> getMyFarms(HttpServletRequest httpRequest) {
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        farmService.deleteFarm(id);
+        Long userId = jwtTokenProvider.getUserIdFromRequest(httpRequest);
+        return farmService.getFarmsByUser(userId);
     }
 }

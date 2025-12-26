@@ -1,27 +1,26 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Suggestion;
+import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.SuggestionService;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/suggestions")
+@RequestMapping("/api/suggestions")
 @RequiredArgsConstructor
 public class SuggestionController {
 
     private final SuggestionService suggestionService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping
-    public Suggestion save(@Valid @RequestBody Suggestion suggestion) {
-        return suggestionService.saveSuggestion(suggestion);
-    }
+    @PostMapping("/{farmId}")
+    public Suggestion generateSuggestion(
+            @PathVariable Long farmId,
+            HttpServletRequest request) {
 
-    @GetMapping
-    public List<Suggestion> getAll() {
-        return suggestionService.getAllSuggestions();
+        Long userId = jwtTokenProvider.getUserIdFromRequest(request);
+        return suggestionService.generateSuggestion(farmId, userId);
     }
 }
