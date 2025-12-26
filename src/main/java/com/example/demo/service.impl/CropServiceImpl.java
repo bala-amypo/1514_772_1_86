@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.CropRequest;
 import com.example.demo.entity.Crop;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.CropRepository;
 import com.example.demo.service.CropService;
 import lombok.RequiredArgsConstructor;
@@ -16,24 +16,21 @@ public class CropServiceImpl implements CropService {
     private final CropRepository cropRepository;
 
     @Override
-    public Crop saveCrop(Crop crop) {
+    public Crop addCrop(CropRequest request) {
+
+        Crop crop = Crop.builder()
+                .name(request.getName())
+                .suitablePHMin(request.getSuitablePHMin())
+                .suitablePHMax(request.getSuitablePHMax())
+                .requiredWater(request.getRequiredWater())
+                .season(request.getSeason())
+                .build();
+
         return cropRepository.save(crop);
     }
 
     @Override
     public List<Crop> getAllCrops() {
         return cropRepository.findAll();
-    }
-
-    @Override
-    public Crop getCropById(Long id) {
-        return cropRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Crop not found with id " + id));
-    }
-
-    @Override
-    public void deleteCrop(Long id) {
-        Crop crop = getCropById(id);
-        cropRepository.delete(crop);
     }
 }
