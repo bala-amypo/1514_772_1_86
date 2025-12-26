@@ -1,26 +1,25 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Suggestion;
-import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.SuggestionService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/suggestions")
-@RequiredArgsConstructor
 public class SuggestionController {
 
     private final SuggestionService suggestionService;
-    private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/{farmId}")
-    public Suggestion generateSuggestion(
-            @PathVariable Long farmId,
-            HttpServletRequest request) {
+    public SuggestionController(SuggestionService suggestionService) {
+        this.suggestionService = suggestionService;
+    }
 
-        Long userId = jwtTokenProvider.getUserIdFromRequest(request);
-        return suggestionService.generateSuggestion(farmId, userId);
+    @GetMapping
+    public Object getSuggestions(HttpServletRequest request) {
+
+        // HEADER VALUE IS STRING → CONVERT TO LONG
+        Long userId = Long.parseLong(request.getHeader("userId"));
+
+        return suggestionService.getSuggestions(userId);
     }
 }
