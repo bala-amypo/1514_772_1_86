@@ -1,33 +1,33 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.FarmRequest;
+import com.example.demo.entity.Farm;
 import com.example.demo.service.FarmService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/farms")
+@RequiredArgsConstructor
 public class FarmController {
 
     private final FarmService farmService;
 
-    public FarmController(FarmService farmService) {
-        this.farmService = farmService;
-    }
-
     @PostMapping
-    public Object createFarm(
-            @Valid @RequestBody FarmRequest farmRequest,
-            HttpServletRequest request
-    ) {
-        Long userId = Long.parseLong(request.getHeader("userId"));
-        return farmService.createFarm(farmRequest, userId);
+    public ResponseEntity<Farm> create(@Valid @RequestBody FarmRequest request) {
+        Farm farm = new Farm();
+        farm.setName(request.getName());
+        farm.setLocation(request.getLocation());
+        farm.setOwnerId(request.getOwnerId());
+        return ResponseEntity.ok(farmService.create(farm));
     }
 
-    @GetMapping
-    public Object getFarms(HttpServletRequest request) {
-        Long userId = Long.parseLong(request.getHeader("userId"));
-        return farmService.getFarms(userId);
+    @GetMapping("/{ownerId}")
+    public ResponseEntity<List<Farm>> getByOwner(@PathVariable Long ownerId) {
+        return ResponseEntity.ok(farmService.getFarmsByOwner(ownerId));
     }
 }
