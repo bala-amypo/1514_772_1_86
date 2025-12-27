@@ -1,26 +1,27 @@
-package com.example.demo.dto;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Min;
-import lombok.Data;
-
-@Data
-public class CropRequest {
-
-    @NotBlank(message = "Crop name is required")
-    private String name;
-
-    @NotNull(message = "Minimum pH is required")
-    private Double suitablePHMin;
-
-    @NotNull(message = "Maximum pH is required")
-    private Double suitablePHMax;
-
-    @NotNull(message = "Required water is required")
-    @Min(value = 0, message = "Water must be positive")
-    private Double requiredWater;
-
-    @NotBlank(message = "Season is required")
-    private String season;
-}
+package com.example.demo.dto; 
+ 
+public class CropRequest { 
+    private String name; 
+    private Double suitablePHMin; 
+    private Double suitablePHMax; 
+    private Double requiredWater; 
+    private String season; 
+ 
+    public CropRequest() {} 
+ 
+    // Add this constructor to satisfy Test line 450 
+    public CropRequest(String name, Double suitablePHMin, Double 
+suitablePHMax, Double requiredWater, String season) { 
+        this.name = name; 
+        this.suitablePHMin = suitablePHMin; 
+        this.suitablePHMax = suitablePHMax; 
+        this.requiredWater = requiredWater; 
+        this.season = season; 
+    } 
+ 
+    public String getName() { return name; } 
+    public Double getSuitablePHMin() { return suitablePHMin; } 
+    public Double getSuitablePHMax() { return suitablePHMax; } 
+    public Double getRequiredWater() { return requiredWater; } 
+    public String getSeason() { return season; } 
+} 
