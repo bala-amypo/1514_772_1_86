@@ -17,16 +17,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(
-            @Valid @RequestBody RegisterRequest request) {
-
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(userService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
-            @Valid @RequestBody AuthRequest request) {
-
+    public ResponseEntity<String> login(@Valid @RequestBody AuthRequest request) {
         return ResponseEntity.ok(userService.login(request));
     }
 }
