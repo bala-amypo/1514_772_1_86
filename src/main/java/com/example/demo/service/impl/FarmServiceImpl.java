@@ -1,19 +1,26 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.FarmRequest;
+import com.example.demo.entity.Farm;
+import com.example.demo.repository.FarmRepository;
 import com.example.demo.service.FarmService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class FarmServiceImpl implements FarmService {
 
+    private final FarmRepository farmRepository;
+
     @Override
-    public Object createFarm(FarmRequest farmRequest, Long userId) {
-        return "Farm created for userId = " + userId;
+    public Farm create(Farm farm) {
+        return farmRepository.save(farm);
     }
 
     @Override
-    public Object getFarms(Long userId) {
-        return "Farms list for userId = " + userId;
+    public List<Farm> getFarmsByOwner(Long ownerId) {
+        return farmRepository.findByOwnerId(ownerId);
     }
 }
