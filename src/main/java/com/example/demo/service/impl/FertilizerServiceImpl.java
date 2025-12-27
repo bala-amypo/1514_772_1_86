@@ -17,13 +17,10 @@ public class FertilizerServiceImpl implements FertilizerService {
 
     @Override
     public Fertilizer addFertilizer(FertilizerRequest request) {
-
-        Fertilizer fertilizer = Fertilizer.builder()
-                .name(request.getName())
-                .npkRatio(request.getNpkRatio())
-                .recommendedForCrops(request.getRecommendedForCrops())
-                .build();
-
+        Fertilizer fertilizer = new Fertilizer();
+        fertilizer.setName(request.getName());
+        fertilizer.setNpkRatio(request.getNpkRatio());
+        fertilizer.setRecommendedForCrops(request.getRecommendedForCrops());
         return fertilizerRepository.save(fertilizer);
     }
 
