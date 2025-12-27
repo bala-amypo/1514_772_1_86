@@ -9,6 +9,11 @@ public class JwtTokenProvider {
         return "token-" + username;
     }
 
+    public boolean validateToken(String token) {
+        return token != null && !token.isBlank();
+    }
+
+
     public String getUsernameFromToken(String token) {
         return token.replace("token-", "");
     }
