@@ -1,10 +1,25 @@
-package com.example.demo.dto; 
-public class RegisterRequest { 
-    private String name; private String email; private String password; 
-    public RegisterRequest() {} 
-    public RegisterRequest(String n, String e, String p) { this.name = n; 
-this.email = e; this.password = p; } 
-    public String getName() { return name; } 
-    public String getEmail() { return email; } 
-    public String getPassword() { return password; } 
-} 
+package com.example.demo.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterRequest {
+
+    @NotBlank
+    private String name;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String password;
+}

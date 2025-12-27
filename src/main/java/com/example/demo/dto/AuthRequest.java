@@ -1,10 +1,22 @@
-package com.example.demo.dto; 
-public class AuthRequest { 
-    private String email; 
-    private String password; 
-    public AuthRequest() {} 
-    public AuthRequest(String email, String password) { this.email = email; 
-this.password = password; } 
-    public String getEmail() { return email; } 
-    public String getPassword() { return password; } 
-} 
+package com.example.demo.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthRequest {
+
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String password;
+}
