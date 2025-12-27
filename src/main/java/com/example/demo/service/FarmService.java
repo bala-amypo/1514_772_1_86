@@ -4,8 +4,7 @@ import com.example.demo.entity.Farm;
 import java.util.List;
 
 public interface FarmService {
-
-    Farm create(Farm farm);
-
+    Farm createFarm(Farm farm, Long userId);
+    Farm getFarmById(Long id);
     List<Farm> getFarmsByOwner(Long ownerId);
 }

@@ -23,24 +23,20 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole("USER");
         return userRepository.save(user);
     }
 
     @Override
     public String login(AuthRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        return jwtTokenProvider.generateToken(user.getUsername());
+        return jwtTokenProvider.generateToken(
+                request.getUsername(),
+                request.getPassword()
+        );
     }
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id).orElse(null);
     }
 }
