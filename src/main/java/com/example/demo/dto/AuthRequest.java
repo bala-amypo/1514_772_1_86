@@ -1,16 +1,10 @@
-package com.example.demo.dto;
-
-import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class AuthRequest {
-
-    @NotBlank
-    private String username;
-
-    @NotBlank
-    private String password;
-}
+package com.example.demo.dto; 
+public class AuthRequest { 
+    private String email; 
+    private String password; 
+    public AuthRequest() {} 
+    public AuthRequest(String email, String password) { this.email = email; 
+this.password = password; } 
+    public String getEmail() { return email; } 
+    public String getPassword() { return password; } 
+} 

@@ -1,21 +1,26 @@
-package com.example.demo.dto;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-
-@Data
-public class FertilizerRequest {
-
-    @NotBlank(message = "Fertilizer name is required")
-    private String name;
-
-    @Pattern(
-        regexp = "^\\d+-\\d+-\\d+$",
-        message = "NPK format must be N-P-K"
-    )
-    private String npkRatio;
-
-    @NotBlank(message = "Recommended crops are required")
-    private String recommendedForCrops;
+package com.example.demo.dto; 
+ 
+public class FertilizerRequest { 
+    private String name; 
+    private String npkRatio; 
+    private String recommendedForCrops; 
+ 
+    public FertilizerRequest() {} 
+ 
+    // Constructor that might be used by tests 
+    public FertilizerRequest(String name, String npkRatio, String 
+recommendedForCrops) { 
+        this.name = name; 
+        this.npkRatio = npkRatio; 
+        this.recommendedForCrops = recommendedForCrops; 
+    } 
+ 
+    public String getName() { return name; } 
+    public String getNpkRatio() { return npkRatio; } 
+    public String getRecommendedForCrops() { return recommendedForCrops; } 
+     
+    public void setName(String name) { this.name = name; } 
+    public void setNpkRatio(String npkRatio) { this.npkRatio = npkRatio; } 
+    public void setRecommendedForCrops(String recommendedForCrops) { 
+this.recommendedForCrops = recommendedForCrops; } 
 }

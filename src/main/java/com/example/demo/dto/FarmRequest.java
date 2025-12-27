@@ -1,26 +1,27 @@
-package com.example.demo.dto;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.Data;
-
-@Data
-public class FarmRequest {
-
-    @NotBlank(message = "Farm name is required")
-    private String name;
-
-    @NotNull(message = "Soil pH is required")
-    @Min(value = 3, message = "pH must be >= 3")
-    @Max(value = 10, message = "pH must be <= 10")
-    private Double soilPH;
-
-    @NotNull(message = "Water level is required")
-    @Min(value = 0, message = "Water level cannot be negative")
-    private Double waterLevel;
-
-    @NotBlank(message = "Season is required")
-    private String season;
-}
+package com.example.demo.dto; 
+ 
+public class FarmRequest { 
+    private String name; 
+    private Double soilPH; 
+    private Double waterLevel; 
+    private String season; 
+ 
+    public FarmRequest() {} 
+    public FarmRequest(String name, Double soilPH, Double waterLevel, String 
+season) { 
+        this.name = name; this.soilPH = soilPH; this.waterLevel = waterLevel; 
+this.season = season; 
+    } 
+ 
+    public String getName() { return name; } 
+    public Double getSoilPH() { return soilPH; } 
+    public Double getWaterLevel() { return waterLevel; } 
+    public String getSeason() { return season; } 
+ 
+    // Setters (Required for JSON mapping) 
+    public void setName(String name) { this.name = name; } 
+    public void setSoilPH(Double soilPH) { this.soilPH = soilPH; } 
+    public void setWaterLevel(Double waterLevel) { this.waterLevel = 
+waterLevel; } 
+    public void setSeason(String season) { this.season = season; } 
+} 
